@@ -1,19 +1,29 @@
-/* 三维课 · 示例页教学壳 */
+/* ============================================================
+   三维课 · 案例工作台
+   与首页统一：冷石灰底 + 琥珀橙强调 + Outfit / Source Sans 3
+   ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap');
 
 :root {
-  --ink: #f4f4f5;
-  --muted: #a1a1aa;
-  --accent: #ff7a3c;
-  --accent-dim: rgba(255, 122, 60, 0.16);
-  --panel: rgba(12, 12, 14, 0.78);
-  --line: rgba(244, 244, 245, 0.14);
-  --font-display: 'Outfit', 'Source Sans 3', sans-serif;
+  --bg: #e6e7eb;
+  --ink: #12141a;
+  --ink-soft: #3d4450;
+  --muted: #6b7280;
+  --line: rgba(18, 20, 26, 0.1);
+  --surface: #f3f4f7;
+  --surface-2: #ffffff;
+  --accent: #e04e00;
+  --accent-ink: #fff7f2;
+  --accent-soft: rgba(224, 78, 0, 0.12);
+  --shadow: 0 14px 36px rgba(18, 20, 26, 0.08);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font-display: 'Outfit', sans-serif;
   --font-body: 'Source Sans 3', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
-  --bar-h: 4.5rem;
-  --pager-h: 3.6rem;
+  --top-h: 4.25rem;
+  --foot-h: 3.5rem;
 }
 
 * {
@@ -26,353 +36,579 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #0f1014;
-  font-family: var(--font-body);
   color: var(--ink);
+  font-family: var(--font-body);
+  background:
+    radial-gradient(42vw 28vw at 96% -6%, rgba(224, 78, 0, 0.1), transparent 70%),
+    linear-gradient(180deg, #eceef2 0%, var(--bg) 50%, #dddfe5 100%);
 }
 
 canvas {
   display: block;
 }
 
-/* 返回 */
-.back {
-  position: fixed;
-  top: 1rem;
-  left: 1rem;
-  z-index: 30;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.5rem 0.9rem;
-  color: var(--ink);
-  text-decoration: none;
-  font-size: 0.88rem;
-  font-weight: 600;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  backdrop-filter: blur(12px);
-  transition: transform 0.2s ease, border-color 0.2s ease;
+.ui-for-preview {
+  display: none !important;
 }
 
-.back:hover {
-  transform: translateY(-1px);
-  border-color: rgba(255, 122, 60, 0.45);
+/* ——— Workspace shell ——— */
+.lesson-workspace {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100dvh;
+  min-height: 100%;
 }
 
-.back:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.has-lesson-shell .back {
-  top: calc(var(--bar-h) + 0.65rem);
-}
-
-/* 顶部课程条 */
-.lesson-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 25;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.ws-top {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   gap: 1rem;
-  min-height: var(--bar-h);
-  padding: 0.65rem 1rem 0.65rem 1rem;
-  padding-left: 6.5rem;
-  background: linear-gradient(180deg, rgba(12, 12, 14, 0.92), rgba(12, 12, 14, 0.72));
+  align-items: center;
+  padding: 0.75rem 1.1rem;
+  background: rgba(230, 231, 235, 0.92);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(14px);
 }
 
-.lesson-bar-kicker {
+.ws-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.03em;
+}
+
+.ws-brand-mark {
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--accent);
+  transform: rotate(12deg);
+  box-shadow: 2px 2px 0 rgba(18, 20, 26, 0.18);
+}
+
+.ws-title-block {
+  min-width: 0;
+}
+
+.ws-kicker {
   margin: 0;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--accent);
 }
 
-.lesson-bar-title {
+.ws-title {
   margin: 0.1rem 0 0;
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
-.lesson-bar-summary {
+.ws-summary {
   margin: 0.15rem 0 0;
   color: var(--muted);
-  font-size: 0.82rem;
-}
-
-.lesson-toggle {
-  appearance: none;
-  flex-shrink: 0;
-  border: 1px solid var(--line);
-  background: var(--accent-dim);
-  color: #ffd0b8;
-  border-radius: 999px;
-  padding: 0.45rem 0.9rem;
-  font: inherit;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.lesson-toggle:hover,
-.lesson-toggle[aria-expanded='true'] {
-  border-color: rgba(255, 122, 60, 0.5);
-  background: rgba(255, 122, 60, 0.28);
-}
-
-/* 概念抽屉 */
-.lesson-drawer {
-  position: fixed;
-  inset: 0;
-  z-index: 40;
-  display: flex;
-  justify-content: flex-end;
-  pointer-events: none;
-  background: transparent;
-  transition: background 0.25s ease;
-}
-
-.lesson-drawer.is-open {
-  pointer-events: auto;
-  background: rgba(0, 0, 0, 0.45);
-}
-
-.lesson-drawer-inner {
-  width: min(22rem, 92vw);
-  height: 100%;
-  padding: 1.25rem 1.25rem 2rem;
-  background: #14151a;
-  border-left: 1px solid var(--line);
-  transform: translateX(104%);
-  transition: transform 0.3s ease;
-  overflow: auto;
-}
-
-.lesson-drawer.is-open .lesson-drawer-inner {
-  transform: translateX(0);
-}
-
-.lesson-drawer-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.lesson-drawer-head h2 {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  letter-spacing: -0.02em;
-}
-
-.lesson-drawer-close {
-  appearance: none;
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: transparent;
-  color: var(--ink);
-  font-size: 1.2rem;
-  line-height: 1;
-  cursor: pointer;
-}
-
-.lesson-why {
-  margin: 0 0 1.1rem;
-  color: var(--muted);
-  line-height: 1.55;
-  font-size: 0.95rem;
-}
-
-.lesson-drawer h3 {
-  margin: 0 0 0.5rem;
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-}
-
-.lesson-concepts,
-.lesson-try {
-  margin: 0 0 1.15rem;
-  padding-left: 1.1rem;
-  color: #d4d4d8;
-  font-size: 0.9rem;
-  line-height: 1.55;
-}
-
-.lesson-concepts li,
-.lesson-try li {
-  margin-bottom: 0.35rem;
-}
-
-.lesson-tip {
-  margin: 0;
-  padding: 0.75rem 0.85rem;
-  border-radius: 10px;
-  background: rgba(255, 122, 60, 0.1);
-  color: #ffd0b8;
-  font-size: 0.85rem;
-  line-height: 1.45;
-}
-
-.lesson-tip code {
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-}
-
-/* 底部上下课 */
-.lesson-pager {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 25;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 0.5rem;
-  align-items: stretch;
-  min-height: var(--pager-h);
-  padding: 0.45rem 0.65rem calc(0.45rem + env(safe-area-inset-bottom));
-  background: linear-gradient(0deg, rgba(12, 12, 14, 0.94), rgba(12, 12, 14, 0.75));
-  border-top: 1px solid var(--line);
-  backdrop-filter: blur(14px);
-}
-
-.pager-link {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0.35rem 0.7rem;
-  text-decoration: none;
-  color: var(--ink);
-  border-radius: 10px;
-  border: 1px solid transparent;
-  min-width: 0;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.pager-link span {
-  font-size: 0.7rem;
-  color: var(--muted);
-  font-family: var(--font-mono);
-}
-
-.pager-link strong {
-  font-family: var(--font-display);
-  font-size: 0.88rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-size: 0.86rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.pager-link:hover {
-  background: rgba(255, 255, 255, 0.05);
+.ws-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+.ws-btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  text-decoration: none;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+
+.ws-btn:active {
+  transform: scale(0.98);
+}
+
+.ws-btn-primary {
+  color: var(--accent-ink);
+  background: var(--accent);
+  box-shadow: 0 8px 18px rgba(224, 78, 0, 0.22);
+}
+
+.ws-btn-primary:hover {
+  background: #c94400;
+}
+
+.ws-btn-ghost {
+  color: var(--ink-soft);
+  background: transparent;
   border-color: var(--line);
 }
 
-.pager-next {
-  text-align: right;
-  align-items: flex-end;
+.ws-btn-ghost:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.55);
 }
 
-.pager-home {
-  align-items: center;
-  text-align: center;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--accent);
-}
-
-.pager-link.is-disabled {
+.ws-btn.is-disabled {
   opacity: 0.4;
   pointer-events: none;
 }
 
-/* 旧 HUD 压缩为底栏提示（避开 pager） */
-.hud {
-  position: fixed;
-  left: 1rem;
-  bottom: calc(var(--pager-h) + 0.75rem);
-  z-index: 10;
-  max-width: min(22rem, calc(100% - 2rem));
-  padding: 0.55rem 0.85rem;
-  border-radius: 999px;
-  background: var(--panel);
-  border: 1px solid var(--line);
-  backdrop-filter: blur(10px);
-  pointer-events: none;
+/* ——— Main split ——— */
+.ws-main {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.2fr);
+  gap: 0.9rem;
+  min-height: 0;
+  padding: 0.9rem 1.1rem;
 }
 
-.hud h1 {
-  margin: 0 0 0.3rem;
+.ws-stage-wrap,
+.ws-side {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.ws-stage-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.7rem 0.95rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.ws-stage-label {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-weight: 700;
+  font-size: 0.92rem;
   letter-spacing: -0.02em;
 }
 
-.hud p {
-  margin: 0;
+.ws-stage-hint {
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
+}
+
+.ws-stage {
+  position: relative;
+  flex: 1;
+  min-height: 280px;
+  background: #12141a;
+}
+
+.live-preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #12141a;
+}
+
+/* Side panel */
+.ws-side {
+  background: var(--surface-2);
+}
+
+.ws-tabs {
+  display: flex;
+  gap: 0.35rem;
+  padding: 0.7rem 0.85rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.ws-tab {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ws-tab.is-active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  border-color: rgba(224, 78, 0, 0.2);
+}
+
+.ws-panel {
+  display: none;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  overflow: auto;
+  padding: 1rem 1.05rem 1.15rem;
+}
+
+.ws-panel.is-active {
+  display: flex;
+}
+
+.ws-panel[data-panel='code'] {
+  overflow: hidden;
+  padding-bottom: 0.85rem;
+}
+
+.ws-why {
+  margin: 0 0 1rem;
+  color: var(--ink-soft);
+  line-height: 1.65;
+  font-size: 0.98rem;
+}
+
+.ws-panel h2 {
+  margin: 0 0 0.45rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: -0.02em;
+}
+
+.ws-list {
+  margin: 0 0 1.1rem;
+  padding-left: 1.15rem;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.ws-list li {
+  margin-bottom: 0.35rem;
+}
+
+.ws-tip {
+  margin: 0;
+  padding: 0.75rem 0.85rem;
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
+  color: #9a3400;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.ws-tip code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+}
+
+/* Code */
+.code-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+  flex-shrink: 0;
+}
+
+.code-filename {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--accent);
+}
+
+.code-toolbar-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.code-editor-host {
+  flex: 1;
+  min-height: 16rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.code-editor-host .cm-editor {
+  flex: 1;
+  height: 100%;
+}
+
+.code-status {
+  flex-shrink: 0;
+  margin: 0.55rem 0 0;
+  font-size: 0.8rem;
   line-height: 1.4;
+  color: var(--muted);
 }
 
-.hud-compact {
-  left: 50%;
-  transform: translateX(-50%);
+.code-status[data-kind='ok'] {
+  color: #15803d;
 }
 
-.has-lesson-shell .panel {
-  top: calc(var(--bar-h) + 0.75rem);
+.code-status[data-kind='error'] {
+  color: #b91c1c;
+}
+
+.code-status[data-kind='pending'] {
+  color: #c2410c;
+}
+
+/* Footer */
+.ws-foot {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.55rem 1.1rem 0.7rem;
+  border-top: 1px solid var(--line);
+  background: rgba(243, 244, 247, 0.9);
+}
+
+.ws-foot-link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--ink);
+  min-width: 0;
+  padding: 0.25rem 0.35rem;
+  border-radius: 8px;
+}
+
+.ws-foot-link span {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--muted);
+}
+
+.ws-foot-link strong {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ws-foot-next {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.ws-foot-home {
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.ws-foot-link.is-disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.ws-foot-link:hover:not(.is-disabled) {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* Responsive */
+@media (max-width: 960px) {
+  .ws-top {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 0.75rem;
+  }
+
+  .ws-brand {
+    flex-shrink: 0;
+  }
+
+  .ws-title-block {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ws-actions {
+    flex-shrink: 0;
+  }
+
+  .ws-actions .ws-nav-prev,
+  .ws-actions .ws-nav-next {
+    display: none;
+  }
+
+  .ws-summary {
+    display: none;
+  }
+
+  .ws-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    min-height: 0;
+    padding: 0.55rem 0.7rem;
+    overflow: hidden;
+  }
+
+  /* 预览置顶，固定可视高度，避免被挤扁裁切 */
+  .ws-stage-wrap {
+    order: -1;
+    flex: 0 0 auto;
+    height: clamp(200px, 36vh, 300px);
+    min-height: 200px;
+  }
+
+  .ws-stage {
+    min-height: 0;
+  }
+
+  .ws-stage-head {
+    padding: 0.45rem 0.75rem;
+  }
+
+  .ws-stage-hint {
+    display: none;
+  }
+
+  .ws-side {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  .ws-tabs {
+    padding: 0.5rem 0.65rem;
+    flex-shrink: 0;
+  }
+
+  .ws-panel {
+    padding: 0.75rem 0.8rem 0.85rem;
+  }
+
+  .ws-panel[data-panel='code'] {
+    padding-bottom: 0.55rem;
+  }
+
+  .code-editor-host {
+    min-height: 0;
+  }
+
+  .code-status {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .ws-foot {
+    padding: 0.4rem 0.7rem 0.5rem;
+    gap: 0.35rem;
+  }
+
+  .ws-foot-link strong {
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 640px) {
-  .lesson-bar {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    flex-wrap: wrap;
+  .ws-top {
+    gap: 0.5rem;
+    padding: 0.5rem 0.65rem;
   }
 
-  .back {
-    top: 0.65rem;
-    left: 0.65rem;
-    padding: 0.4rem 0.7rem;
+  .ws-brand span:last-child {
+    display: none;
+  }
+
+  .ws-kicker {
+    font-size: 0.65rem;
+  }
+
+  .ws-title {
+    font-size: 1rem;
+  }
+
+  .ws-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.82rem;
+  }
+
+  /* 窄屏只保留顶栏「运行」，代码栏里重复的「运行」仍保留便于改完就点 */
+  .ws-stage-wrap {
+    height: clamp(180px, 32vh, 260px);
+    min-height: 180px;
+    border-radius: 12px;
+  }
+
+  .ws-side {
+    border-radius: 12px;
+  }
+
+  .ws-main {
+    padding: 0.5rem 0.55rem;
+    gap: 0.5rem;
+  }
+
+  .ws-foot {
+    padding-inline: 0.55rem;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .ws-foot-home {
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .ws-foot-link span {
+    font-size: 0.62rem;
+  }
+
+  .ws-foot-link strong {
+    font-size: 0.72rem;
+  }
+
+  .ws-tip {
     font-size: 0.8rem;
   }
+}
 
-  .has-lesson-shell .back {
-    position: fixed;
-    top: auto;
-    bottom: calc(var(--pager-h) + 0.55rem);
-    left: 0.65rem;
+/* 超窄 / 矮屏：预览再让一点高度给代码 */
+@media (max-width: 640px) and (max-height: 720px) {
+  .ws-stage-wrap {
+    height: clamp(160px, 28vh, 220px);
+    min-height: 160px;
   }
 
-  .lesson-bar-summary {
+  .ws-stage-head {
     display: none;
-  }
-
-  .hud-compact {
-    display: none;
-  }
-
-  .pager-link strong {
-    font-size: 0.78rem;
   }
 }

@@ -18,7 +18,7 @@ npm run dev
 | 学习路径 | A→E 阶段说明 |
 | 基础课 | 示例 01–05 |
 | 练手坊 | P1–P10 非对称课程墙 |
-| 指南 | `docs/threejs-learning-guide.md` |
+| 指南 | [在线阅读](./guide/) · 源文件 `docs/threejs-learning-guide.md` |
 
 首页支持：课程筛选、滚动渐入、记住上次学到哪一课。
 
@@ -32,4 +32,5 @@ UI 按 [taste-skill](https://github.com/Leonxlnx/taste-skill) 做了教学站向
 
 ## 文档
 
-完整学习指南：[docs/threejs-learning-guide.md](./docs/threejs-learning-guide.md)
+完整学习指南（网页版）：[guide/](./guide/)  
+源 Markdown：[docs/threejs-learning-guide.md](./docs/threejs-learning-guide.md)

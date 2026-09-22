@@ -3,110 +3,377 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Three.js 学习示例导航</title>
+    <title>三维课 · Three.js 循序教学</title>
+    <meta
+      name="description"
+      content="面向初学者的 Three.js 教学站：先讲概念，再打开可运行案例。5 堂基础课 + 10 个练手项目。"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="/styles/home.css" />
+    <script>
+      // 尽早恢复滚动，减少「先闪到顶部再跳回」
+      (function () {
+        try {
+          if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
+          var pending = sessionStorage.getItem('three-course-home-scroll:pending')
+          var y = sessionStorage.getItem('three-course-home-scroll')
+          if (pending && y != null) {
+            var top = Number(y)
+            if (isFinite(top)) {
+              window.scrollTo(0, top)
+              document.documentElement.style.scrollBehavior = 'auto'
+            }
+          }
+        } catch (e) {}
+      })()
+    </script>
   </head>
   <body>
-    <main class="page">
-      <header class="hero">
-        <p class="eyebrow">Three.js Learning Lab</p>
-        <h1>Three.js 学习示例</h1>
-        <p class="lead">
-          从旋转方块到完整练手项目，按顺序跑一遍，配合
-          <code>docs/threejs-learning-guide.md</code> 一起学。
-        </p>
-      </header>
+    <a class="skip" href="#learn">跳到正文</a>
+    <div class="grain" aria-hidden="true"></div>
 
-      <section class="examples">
-        <a class="card" href="/examples/01-hello-cube/">
-          <span class="num">01</span>
-          <h2>Hello Cube</h2>
-          <p>Scene / Camera / Renderer，第一个旋转立方体</p>
-        </a>
-        <a class="card" href="/examples/02-lights-materials/">
-          <span class="num">02</span>
-          <h2>灯光与材质</h2>
-          <p>环境光、平行光、点光 + MeshStandardMaterial</p>
-        </a>
-        <a class="card" href="/examples/03-orbit-controls/">
-          <span class="num">03</span>
-          <h2>轨道控制器</h2>
-          <p>OrbitControls 拖拽旋转、缩放场景</p>
-        </a>
-        <a class="card" href="/examples/04-model-loader/">
-          <span class="num">04</span>
-          <h2>模型加载</h2>
-          <p>用程序化几何体模拟 GLTF 加载流程</p>
-        </a>
-        <a class="card" href="/examples/05-particles/">
-          <span class="num">05</span>
-          <h2>粒子系统</h2>
-          <p>Points + BufferGeometry 做星空粒子</p>
-        </a>
+    <header class="topbar">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">三维课</span>
+      </a>
+      <nav class="nav" aria-label="主导航">
+        <a href="#how">怎么学</a>
+        <a href="#fundamentals">基础课</a>
+        <a href="#studio">练手坊</a>
+        <a href="#guide">指南</a>
+      </nav>
+      <a class="topbar-cta" href="/examples/01-hello-cube/">从 01 开始</a>
+    </header>
+
+    <main id="learn">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="hero-kicker">Three.js · 循序教学实验室</p>
+          <h1 id="hero-title">
+            <span class="brand-line">三维课</span>
+            <span class="hero-sub">先懂概念，再打开案例动手</span>
+          </h1>
+          <p class="hero-lead">
+            每一课都按「为什么 → 核心概念 → 可运行示例 → 小练习」推进。适合零基础：先读一段说明，再进场景改参数。
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/examples/01-hello-cube/" id="startBtn">
+              打开第一课
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+            <a class="btn btn-ghost" href="#how">先看学习方法</a>
+          </div>
+          <p class="hero-meta" id="resumeHint" hidden></p>
+        </div>
+        <div class="hero-stage" aria-hidden="true">
+          <div class="stage-frame">
+            <div class="orb orb-a"></div>
+            <div class="orb orb-b"></div>
+            <div class="wire-cube">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span>
+            </div>
+            <p class="stage-caption">读概念 · 跑示例 · 自己重写</p>
+          </div>
+        </div>
       </section>
 
-      <header class="hero section-gap">
-        <p class="eyebrow">Practice Projects</p>
-        <h1 class="h2">练手项目 P1 – P10</h1>
-        <p class="lead">全部可运行。建议先读参考实现，再自己重写一遍。</p>
-      </header>
+      <!-- 怎么学 -->
+      <section class="section how" id="how">
+        <div class="section-head">
+          <p class="eyebrow">学习方法</p>
+          <h2>不要一上来就抄完整项目</h2>
+        </div>
+        <div class="how-grid" data-reveal>
+          <article class="how-card">
+            <span class="how-num">1</span>
+            <h3>先建立最小闭环</h3>
+            <p>
+              Three.js 再复杂，底层也是：<strong>Scene（舞台）</strong>装物体，
+              <strong>Camera（眼睛）</strong>决定视角，<strong>Renderer（画笔）</strong>画到画布。
+              第一课只做这件事。
+            </p>
+          </article>
+          <article class="how-card">
+            <span class="how-num">2</span>
+            <h3>一次只加一个概念</h3>
+            <p>
+              灯光、控制器、模型加载、粒子……按顺序叠上去。每课页面右上角有「概念说明」，
+              进去先看，再操作 3D 场景。
+            </p>
+          </article>
+          <article class="how-card">
+            <span class="how-num">3</span>
+            <h3>改参数，再重写</h3>
+            <p>
+              打开 <code>main.js</code>，至少改 3 个数字（颜色、位置、速度）。然后合上参考，
+              凭记忆重写一遍。这比收藏十篇教程有效。
+            </p>
+          </article>
+        </div>
 
-      <section class="examples">
-        <a class="card card-practice" href="/examples/p1-showcase/">
-          <span class="num">P1</span>
-          <h2>可交互旋转展台</h2>
-          <p>展台 + 阴影 + OrbitControls + 换色 UI</p>
-        </a>
-        <a class="card card-practice" href="/examples/p2-solar-system/">
-          <span class="num">P2</span>
-          <h2>太阳系（简化版）</h2>
-          <p>Group 公转自转 + Raycaster 点击行星</p>
-        </a>
-        <a class="card card-practice" href="/examples/p3-dice/">
-          <span class="num">P3</span>
-          <h2>3D 骰子</h2>
-          <p>旋转缓动 · 朝上点数映射</p>
-        </a>
-        <a class="card card-practice" href="/examples/p4-product/">
-          <span class="num">P4</span>
-          <h2>产品展示页</h2>
-          <p>程序化耳机 · 换色 · 热点标注</p>
-        </a>
-        <a class="card card-practice" href="/examples/p5-gallery/">
-          <span class="num">P5</span>
-          <h2>第一人称画廊</h2>
-          <p>PointerLock · WASD · 碰撞</p>
-        </a>
-        <a class="card card-practice" href="/examples/p6-audio-particles/">
-          <span class="num">P6</span>
-          <h2>音频粒子可视化</h2>
-          <p>Analyser · 频谱驱动粒子</p>
-        </a>
-        <a class="card card-practice" href="/examples/p7-runner/">
-          <span class="num">P7</span>
-          <h2>跑酷小游戏</h2>
-          <p>三车道 · 障碍金币 · 状态机</p>
-        </a>
-        <a class="card card-practice" href="/examples/p8-dataviz/">
-          <span class="num">P8</span>
-          <h2>3D 数据可视化</h2>
-          <p>柱状图 · Tooltip · 切换数据</p>
-        </a>
-        <a class="card card-practice" href="/examples/p9-water-shader/">
-          <span class="num">P9</span>
-          <h2>Shader 水面</h2>
-          <p>顶点波浪 · 菲涅尔高光</p>
-        </a>
-        <a class="card card-practice" href="/examples/p10-portfolio-room/">
-          <span class="num">P10</span>
-          <h2>3D 作品集房间</h2>
-          <p>可点击书桌 / 书架 / 画框</p>
-        </a>
+        <div class="concept-strip" data-reveal>
+          <h3>全程会反复碰到的词</h3>
+          <dl class="glossary">
+            <div>
+              <dt>Mesh</dt>
+              <dd>可渲染物体 = 几何体 Geometry + 材质 Material</dd>
+            </div>
+            <div>
+              <dt>世界坐标</dt>
+              <dd>默认右手系：+X 右，+Y 上，+Z 朝向你</dd>
+            </div>
+            <div>
+              <dt>弧度</dt>
+              <dd>rotation 用弧度，不是角度。90° = Math.PI / 2</dd>
+            </div>
+            <div>
+              <dt>addons</dt>
+              <dd>OrbitControls、GLTFLoader 等官方附加模块，需单独 import</dd>
+            </div>
+          </dl>
+        </div>
       </section>
 
-      <footer class="footer">
-        <p>启动：<code>npm install && npm run dev</code></p>
-      </footer>
+      <!-- 基础课：循序渐进章节 -->
+      <section class="section fundamentals" id="fundamentals">
+        <div class="section-head split">
+          <div>
+            <p class="eyebrow">基础课 · 01 → 05</p>
+            <h2>把「能显示」练成「能控制」</h2>
+            <p class="section-lead">
+              下面每一章都先讲清楚「这一步解决什么问题」，再给你打开对应案例。请按顺序学，跳课容易卡在黑屏或看不见模型。
+            </p>
+          </div>
+          <div class="filters" role="tablist" aria-label="筛选">
+            <button type="button" class="chip is-active" data-filter="all" role="tab" aria-selected="true">全部</button>
+            <button type="button" class="chip" data-filter="basics" role="tab" aria-selected="false">基础</button>
+            <button type="button" class="chip" data-filter="practice" role="tab" aria-selected="false">练手</button>
+            <button type="button" class="chip" data-filter="challenge" role="tab" aria-selected="false">挑战</button>
+          </div>
+        </div>
+
+        <div class="chapter" data-reveal data-filterable data-tags="basics" data-id="01-hello-cube">
+          <div class="chapter-text">
+            <p class="chapter-step">第 1 步 · 看见东西</p>
+            <h3>三大件：Scene + Camera + Renderer</h3>
+            <p>
+              网页上的 3D 并不是魔法：你创建场景，把方块放进去，架好相机，再让渲染器每秒画几十次。
+              <strong>MeshBasicMaterial</strong> 先不受灯光影响，保证你一定能看见，建立信心。
+            </p>
+            <ul class="chapter-points">
+              <li>aspect 必须跟窗口宽高比一致，否则画面拉伸</li>
+              <li>改了相机参数要调用 updateProjectionMatrix()</li>
+              <li>忘记 scene.add(mesh) = 永远看不见</li>
+            </ul>
+          </div>
+          <a class="chapter-cta" href="/examples/01-hello-cube/">
+            <span class="chapter-cta-index">01</span>
+            <span class="chapter-cta-body">
+              <strong>Hello Cube</strong>
+              <em>打开会旋转的立方体</em>
+            </span>
+            <span class="chapter-cta-go">进入 →</span>
+          </a>
+        </div>
+
+        <div class="chapter" data-reveal data-filterable data-tags="basics" data-id="02-lights-materials">
+          <div class="chapter-text">
+            <p class="chapter-step">第 2 步 · 让它变立体</p>
+            <h3>灯光与 PBR 材质</h3>
+            <p>
+              换成 <strong>MeshStandardMaterial</strong> 后如果全黑，通常不是坏了，而是<strong>场景里没有灯</strong>。
+              环境光负责暗部不死黑，平行光负责立体明暗；metalness / roughness 决定塑料还是金属。
+            </p>
+            <ul class="chapter-points">
+              <li>阴影要渲染器、灯光、投射物、接收面四处配合</li>
+              <li>地面 Plane 默认朝 Z，要旋转成水平才像地板</li>
+            </ul>
+          </div>
+          <a class="chapter-cta" href="/examples/02-lights-materials/">
+            <span class="chapter-cta-index">02</span>
+            <span class="chapter-cta-body">
+              <strong>灯光与材质</strong>
+              <em>对比三种不同手感的物体</em>
+            </span>
+            <span class="chapter-cta-go">进入 →</span>
+          </a>
+        </div>
+
+        <div class="chapter" data-reveal data-filterable data-tags="basics" data-id="03-orbit-controls">
+          <div class="chapter-text">
+            <p class="chapter-step">第 3 步 · 自己转着看</p>
+            <h3>OrbitControls 与 Group</h3>
+            <p>
+              静态视角很快不够用。控制器让你拖拽环绕；
+              <strong>Group</strong> 则让你把多个物体当成一个整体转。之后太阳系、展台都靠这个思路。
+            </p>
+            <ul class="chapter-points">
+              <li>开了阻尼必须每帧 controls.update()</li>
+              <li>控件来自 three/addons，路径写错会导入失败</li>
+            </ul>
+          </div>
+          <a class="chapter-cta" href="/examples/03-orbit-controls/">
+            <span class="chapter-cta-index">03</span>
+            <span class="chapter-cta-body">
+              <strong>轨道控制器</strong>
+              <em>拖拽、缩放、看网格辅助</em>
+            </span>
+            <span class="chapter-cta-go">进入 →</span>
+          </a>
+        </div>
+
+        <div class="chapter" data-reveal data-filterable data-tags="basics" data-id="04-model-loader">
+          <div class="chapter-text">
+            <p class="chapter-step">第 4 步 · 加载别人的模型</p>
+            <h3>包围盒：居中与统一缩放</h3>
+            <p>
+              业务项目里很少手写几何体，多数是加载 .glb。不同软件单位差十万八千里，
+              所以加载后要：算 <strong>Box3</strong> → 移到原点 → 缩到统一大小 → 放回地面。
+            </p>
+            <ul class="chapter-points">
+              <li>本课用程序化机器人演示同一套后处理</li>
+              <li>真实项目把回调里的模型换成 GLTFLoader 结果即可</li>
+            </ul>
+          </div>
+          <a class="chapter-cta" href="/examples/04-model-loader/">
+            <span class="chapter-cta-index">04</span>
+            <span class="chapter-cta-body">
+              <strong>模型加载流程</strong>
+              <em>看机器人挥手与居中逻辑</em>
+            </span>
+            <span class="chapter-cta-go">进入 →</span>
+          </a>
+        </div>
+
+        <div class="chapter" data-reveal data-filterable data-tags="basics" data-id="05-particles">
+          <div class="chapter-text">
+            <p class="chapter-step">第 5 步 · 一次画很多东西</p>
+            <h3>粒子：BufferGeometry 批处理</h3>
+            <p>
+              一千个 Mesh 会很卡；一个 <strong>Points</strong> 挂着大数组却很轻松。
+              星空、雪、频谱柱都是这条路。记住改了 TypedArray 要 <code>needsUpdate = true</code>。
+            </p>
+            <ul class="chapter-points">
+              <li>AdditiveBlending 适合发光叠加</li>
+              <li>这是后面「音频可视化」的前置课</li>
+            </ul>
+          </div>
+          <a class="chapter-cta" href="/examples/05-particles/">
+            <span class="chapter-cta-index">05</span>
+            <span class="chapter-cta-body">
+              <strong>粒子系统</strong>
+              <em>拖转查看星云</em>
+            </span>
+            <span class="chapter-cta-go">进入 →</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- 练手 -->
+      <section class="section studio" id="studio">
+        <div class="section-head">
+          <p class="eyebrow">练手坊 · P1 → P10</p>
+          <h2>概念齐了，开始做完整小作品</h2>
+          <p class="section-lead">
+            练手按难度递进：先展台与太阳系（巩固变换），再交互与游戏，最后 Shader 与作品集叙事。
+            建议每做一个，就在笔记里写「我用到了哪几课的概念」。
+          </p>
+        </div>
+
+        <div class="track-note" data-reveal>
+          <p><strong>入门线 P1–P3：</strong>展台、太阳系、骰子。目标是独立拼出「能演示」的东西。</p>
+          <p><strong>进阶线 P4–P6：</strong>产品热点、第一人称、音频粒子。目标是 UI + 3D + 浏览器 API 协作。</p>
+          <p><strong>挑战线 P7–P10：</strong>跑酷、可视化、水面 Shader、作品集房间。目标是完整体验与表达。</p>
+        </div>
+
+        <div class="bento" id="studioGrid">
+          <a class="bento-item featured" href="/examples/p1-showcase/" data-reveal data-filterable data-tags="practice" data-id="p1-showcase">
+            <span class="bento-tag">P1 · 入门 · 建议先做</span>
+            <h3>可交互旋转展台</h3>
+            <p>把灯光、阴影、控制器、HTML 换色合成第一个完整项目。做完再碰后面的题。</p>
+            <span class="bento-cta">进入展台</span>
+          </a>
+          <a class="bento-item" href="/examples/p2-solar-system/" data-reveal data-filterable data-tags="practice" data-id="p2-solar-system">
+            <span class="bento-tag">P2 · 父子变换</span>
+            <h3>太阳系</h3>
+            <p>pivot 公转是坐标系课的「期末考」</p>
+          </a>
+          <a class="bento-item" href="/examples/p3-dice/" data-reveal data-filterable data-tags="practice" data-id="p3-dice">
+            <span class="bento-tag">P3 · 动画缓动</span>
+            <h3>3D 骰子</h3>
+            <p>插值与朝上点数映射</p>
+          </a>
+          <a class="bento-item" href="/examples/p4-product/" data-reveal data-filterable data-tags="practice" data-id="p4-product">
+            <span class="bento-tag">P4 · 产品交互</span>
+            <h3>产品展示</h3>
+            <p>热点与材质切换</p>
+          </a>
+          <a class="bento-item wide" href="/examples/p5-gallery/" data-reveal data-filterable data-tags="practice" data-id="p5-gallery">
+            <span class="bento-tag">P5 · 走进场景</span>
+            <h3>第一人称画廊</h3>
+            <p>PointerLock + WASD + 撞墙。从「在外面看」变成「走进去看」。</p>
+          </a>
+          <a class="bento-item" href="/examples/p6-audio-particles/" data-reveal data-filterable data-tags="practice" data-id="p6-audio-particles">
+            <span class="bento-tag">P6 · 声音驱动</span>
+            <h3>音频粒子</h3>
+            <p>接上 Web Audio Analyser</p>
+          </a>
+          <a class="bento-item" href="/examples/p7-runner/" data-reveal data-filterable data-tags="challenge" data-id="p7-runner">
+            <span class="bento-tag">P7 · 游戏循环</span>
+            <h3>跑酷小游戏</h3>
+            <p>状态机与 InstancedMesh</p>
+          </a>
+          <a class="bento-item" href="/examples/p8-dataviz/" data-reveal data-filterable data-tags="challenge" data-id="p8-dataviz">
+            <span class="bento-tag">P8 · 数据映射</span>
+            <h3>数据可视化</h3>
+            <p>数值变成柱高</p>
+          </a>
+          <a class="bento-item" href="/examples/p9-water-shader/" data-reveal data-filterable data-tags="challenge" data-id="p9-water-shader">
+            <span class="bento-tag">P9 · GPU 入门</span>
+            <h3>Shader 水面</h3>
+            <p>自己写顶点与片元</p>
+          </a>
+          <a class="bento-item featured-alt" href="/examples/p10-portfolio-room/" data-reveal data-filterable data-tags="challenge" data-id="p10-portfolio-room">
+            <span class="bento-tag">P10 · 收官表达</span>
+            <h3>作品集房间</h3>
+            <p>用可点击场景讲述项目。适合当作你自己作品集的起点。</p>
+            <span class="bento-cta">进入房间</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section guide" id="guide" data-reveal>
+        <div class="guide-panel">
+          <p class="eyebrow">文字指南</p>
+          <h2>需要系统查阅时打开长文档</h2>
+          <p>
+            案例页解决「练手」，长文档解决「查概念与避坑」：坐标系、API 速查、30 天计划、常见黑屏原因都在里面。
+            卡住超过 30 分钟，先查文档，再对照官方 examples。
+          </p>
+          <div class="guide-actions">
+            <a class="btn btn-primary" href="/docs/threejs-learning-guide.md">打开学习指南</a>
+            <a class="btn btn-ghost" href="https://threejs.org/docs/" target="_blank" rel="noreferrer">Three.js 官方文档</a>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <strong>三维课</strong>
+      </div>
+      <p>本地启动：<code>npm install && npm run dev</code></p>
+      <p class="footer-note">循序渐进 · 概念先行 · 案例随后</p>
+    </footer>
+
+    <script type="module" src="/scripts/home.js"></script>
   </body>
 </html>

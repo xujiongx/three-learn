@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700&display=swap');
+/* 三维课 · 练手项目面板（叠在 example.css 之上） */
 
 .panel {
   position: fixed;
@@ -9,11 +9,12 @@
   flex-direction: column;
   gap: 0.75rem;
   min-width: 10rem;
-  padding: 0.9rem 1rem;
-  background: rgba(11, 18, 32, 0.72);
-  border: 1px solid rgba(232, 238, 252, 0.14);
+  padding: 0.95rem 1.05rem;
+  background: rgba(12, 12, 14, 0.75);
+  border: 1px solid rgba(244, 244, 245, 0.14);
   border-radius: 14px;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
+  font-family: 'Source Sans 3', system-ui, sans-serif;
 }
 
 .panel.wide {
@@ -23,53 +24,72 @@
 
 .panel-title {
   margin: 0;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.15rem;
   letter-spacing: -0.02em;
 }
 
 .panel-desc {
   margin: 0;
-  color: #9aa8c7;
+  color: #a1a1aa;
   font-size: 0.88rem;
   line-height: 1.45;
 }
 
 .panel-label {
   margin: 0;
-  font-size: 0.72rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #9aa8c7;
+  color: #a1a1aa;
 }
 
 .result {
   margin: 0;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
-  color: #3dd6c6;
+  color: #ff7a3c;
 }
 
 .btn {
   appearance: none;
   border: 0;
-  border-radius: 10px;
-  padding: 0.55rem 0.9rem;
+  border-radius: 999px;
+  padding: 0.55rem 0.95rem;
   font: inherit;
   font-weight: 600;
   cursor: pointer;
-  color: #0b1220;
-  background: #3dd6c6;
+  color: #fff7f2;
+  background: #e04e00;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.btn:hover {
+  background: #c94400;
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
 .btn.ghost {
-  color: #e8eefc;
+  color: #f4f4f5;
   background: transparent;
-  border: 1px solid rgba(232, 238, 252, 0.25);
+  border: 1px solid rgba(244, 244, 245, 0.25);
+}
+
+.btn.ghost:hover {
+  border-color: #ff7a3c;
+  background: rgba(255, 122, 60, 0.1);
 }
 
 .swatches {
@@ -85,20 +105,54 @@
   border-radius: 999px;
   cursor: pointer;
   background: var(--swatch, #3dd6c6);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.swatch:hover {
+  transform: scale(1.08);
 }
 
 .swatch.is-active {
-  border-color: #e8eefc;
+  border-color: #f4f4f5;
 }
 
 .muted {
-  color: #9aa8c7;
+  color: #a1a1aa;
 }
 
 .small {
   margin: 0;
   font-size: 0.8rem;
   line-height: 1.4;
+}
+
+.hint {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  color: #a1a1aa;
+}
+
+.planet-name {
+  margin: 0 0 0.85rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ff7a3c;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: #d4d4d8;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle input {
+  accent-color: #e04e00;
 }
 
 .blocker {
@@ -119,12 +173,14 @@
 
 .blocker-card h1 {
   margin: 0 0 0.5rem;
+  font-family: 'Outfit', sans-serif;
   font-size: 2rem;
+  letter-spacing: -0.03em;
 }
 
 .blocker-card p {
   margin: 0.25rem 0;
-  color: #c9d4ee;
+  color: #d4d4d8;
 }
 
 .caption {
@@ -135,8 +191,8 @@
   transform: translateX(-50%);
   padding: 0.55rem 1rem;
   border-radius: 999px;
-  background: rgba(11, 18, 32, 0.8);
-  border: 1px solid rgba(232, 238, 252, 0.12);
+  background: rgba(12, 12, 14, 0.85);
+  border: 1px solid rgba(244, 244, 245, 0.12);
   font-size: 0.9rem;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -153,10 +209,12 @@
   display: flex;
   gap: 1rem;
   padding: 0.5rem 1rem;
-  background: rgba(11, 18, 32, 0.72);
-  border: 1px solid rgba(232, 238, 252, 0.14);
+  background: rgba(12, 12, 14, 0.75);
+  border: 1px solid rgba(244, 244, 245, 0.14);
   border-radius: 999px;
   font-variant-numeric: tabular-nums;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
 }
 
 .overlay-center {
@@ -166,7 +224,7 @@
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(5, 9, 16, 0.75);
+  background: rgba(8, 8, 10, 0.78);
 }
 
 .overlay-center.show {
@@ -180,7 +238,9 @@
 
 .overlay-card h2 {
   margin: 0 0 0.5rem;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.8rem;
+  letter-spacing: -0.03em;
 }
 
 .tooltip {
@@ -189,8 +249,8 @@
   display: none;
   padding: 0.45rem 0.7rem;
   border-radius: 8px;
-  background: rgba(11, 18, 32, 0.9);
-  border: 1px solid rgba(232, 238, 252, 0.15);
+  background: rgba(12, 12, 14, 0.92);
+  border: 1px solid rgba(244, 244, 245, 0.15);
   font-size: 0.85rem;
   pointer-events: none;
   white-space: nowrap;
@@ -203,8 +263,8 @@
   z-index: 10;
   max-width: 16rem;
   padding: 0.85rem 1rem;
-  background: rgba(11, 18, 32, 0.8);
-  border: 1px solid rgba(232, 238, 252, 0.14);
+  background: rgba(12, 12, 14, 0.85);
+  border: 1px solid rgba(244, 244, 245, 0.14);
   border-radius: 12px;
   opacity: 0;
   transform: translateY(6px);
@@ -219,12 +279,13 @@
 
 .room-info h3 {
   margin: 0 0 0.35rem;
+  font-family: 'Outfit', sans-serif;
   font-size: 1rem;
 }
 
 .room-info p {
   margin: 0;
-  color: #9aa8c7;
+  color: #a1a1aa;
   font-size: 0.88rem;
   line-height: 1.45;
 }

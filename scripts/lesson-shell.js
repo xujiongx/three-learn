@@ -6,6 +6,7 @@
  * - 修改代码后可运行重载
  */
 import { LESSON_BY_ID, lessonIdFromPath } from './lessons-data.js'
+import practiceCss from '../styles/practice.css?raw'
 
 const SCROLL_KEY = 'three-course-home-scroll'
 const STORAGE_KEY = 'three-course-last'
@@ -110,6 +111,7 @@ function stageLabel(l) {
 function buildSrcdoc(code) {
   const uiHtml = collectUiHtml()
   const b64 = btoa(unescape(encodeURIComponent(code)))
+  const localCss = new URL('./style.css', location.href).href
 
   return `<!DOCTYPE html>
 <html lang="zh-CN">
@@ -117,13 +119,21 @@ function buildSrcdoc(code) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="${location.href}" />
-  <link rel="stylesheet" href="/styles/example.css" />
-  <link rel="stylesheet" href="/styles/practice.css" />
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="${localCss}" />
   <style>
-    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #12141a; }
+    /* 预览 iframe 独立深色主题：不加载浅色工作台 example.css，避免 --ink 黑字盖住浮层 */
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #12141a;
+      color: #f4f4f5;
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+    }
     canvas { display: block; }
     .back, .lesson-workspace, .hud, .ui-for-preview { display: none !important; }
+    ${practiceCss}
   </style>
   <script type="importmap">
   {

@@ -1,4 +1,15 @@
-/* 三维课 · 练手项目面板（叠在 example.css 之上） */
+/* 三维课 · 练手项目面板（叠在 example.css 之上）
+   预览区为深色 3D 背景，浮层文字必须用浅色，不能继承 body 的 --ink */
+
+.panel,
+.hud-top,
+.tooltip,
+.room-info,
+.caption,
+.blocker-card,
+.overlay-card {
+  color: #f4f4f5;
+}
 
 .panel {
   position: fixed;
@@ -10,8 +21,9 @@
   gap: 0.75rem;
   min-width: 10rem;
   padding: 0.95rem 1.05rem;
-  background: rgba(12, 12, 14, 0.75);
-  border: 1px solid rgba(244, 244, 245, 0.14);
+  color: #f4f4f5;
+  background: rgba(12, 12, 14, 0.82);
+  border: 1px solid rgba(244, 244, 245, 0.16);
   border-radius: 14px;
   backdrop-filter: blur(12px);
   font-family: 'Source Sans 3', system-ui, sans-serif;
@@ -27,11 +39,12 @@
   font-family: 'Outfit', sans-serif;
   font-size: 1.15rem;
   letter-spacing: -0.02em;
+  color: #fafafa;
 }
 
 .panel-desc {
   margin: 0;
-  color: #a1a1aa;
+  color: #c4c4cc;
   font-size: 0.88rem;
   line-height: 1.45;
 }
@@ -42,7 +55,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #a1a1aa;
+  color: #d4d4d8;
 }
 
 .result {
@@ -124,6 +137,7 @@
   margin: 0;
   font-size: 0.8rem;
   line-height: 1.4;
+  color: #d4d4d8;
 }
 
 .hint {
@@ -146,9 +160,13 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.88rem;
-  color: #d4d4d8;
+  color: #e4e4e7;
   cursor: pointer;
   user-select: none;
+}
+
+.toggle span {
+  color: #e4e4e7;
 }
 
 .toggle input {
@@ -164,11 +182,13 @@
   justify-content: center;
   background: rgba(8, 10, 16, 0.72);
   cursor: pointer;
+  color: #f4f4f5;
 }
 
 .blocker-card {
   text-align: center;
   padding: 2rem;
+  color: #f4f4f5;
 }
 
 .blocker-card h1 {
@@ -176,6 +196,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 2rem;
   letter-spacing: -0.03em;
+  color: #fafafa;
 }
 
 .blocker-card p {
@@ -191,6 +212,7 @@
   transform: translateX(-50%);
   padding: 0.55rem 1rem;
   border-radius: 999px;
+  color: #f4f4f5;
   background: rgba(12, 12, 14, 0.85);
   border: 1px solid rgba(244, 244, 245, 0.12);
   font-size: 0.9rem;
@@ -209,6 +231,7 @@
   display: flex;
   gap: 1rem;
   padding: 0.5rem 1rem;
+  color: #f4f4f5;
   background: rgba(12, 12, 14, 0.75);
   border: 1px solid rgba(244, 244, 245, 0.14);
   border-radius: 999px;
@@ -225,6 +248,7 @@
   align-items: center;
   justify-content: center;
   background: rgba(8, 8, 10, 0.78);
+  color: #f4f4f5;
 }
 
 .overlay-center.show {
@@ -234,6 +258,7 @@
 .overlay-card {
   text-align: center;
   padding: 2rem;
+  color: #f4f4f5;
 }
 
 .overlay-card h2 {
@@ -241,6 +266,7 @@
   font-family: 'Outfit', sans-serif;
   font-size: 1.8rem;
   letter-spacing: -0.03em;
+  color: #fafafa;
 }
 
 .tooltip {
@@ -249,6 +275,7 @@
   display: none;
   padding: 0.45rem 0.7rem;
   border-radius: 8px;
+  color: #f4f4f5;
   background: rgba(12, 12, 14, 0.92);
   border: 1px solid rgba(244, 244, 245, 0.15);
   font-size: 0.85rem;
@@ -263,6 +290,7 @@
   z-index: 10;
   max-width: 16rem;
   padding: 0.85rem 1rem;
+  color: #f4f4f5;
   background: rgba(12, 12, 14, 0.85);
   border: 1px solid rgba(244, 244, 245, 0.14);
   border-radius: 12px;
@@ -281,11 +309,12 @@
   margin: 0 0 0.35rem;
   font-family: 'Outfit', sans-serif;
   font-size: 1rem;
+  color: #fafafa;
 }
 
 .room-info p {
   margin: 0;
-  color: #a1a1aa;
+  color: #c4c4cc;
   font-size: 0.88rem;
   line-height: 1.45;
 }

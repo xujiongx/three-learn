@@ -83,7 +83,12 @@ function saveHomeScrollBeforeLeave() {
 function collectUiHtml() {
   return UI_SELECTORS.map((sel) => {
     const el = document.querySelector(sel)
-    return el ? el.outerHTML : ''
+    if (!el) return ''
+    const clone = el.cloneNode(true)
+    // 父页用 ui-for-preview 隐藏；进 iframe 必须去掉，否则 PointerLock 遮罩等会消失
+    clone.classList.remove('ui-for-preview')
+    clone.querySelectorAll('.ui-for-preview').forEach((n) => n.classList.remove('ui-for-preview'))
+    return clone.outerHTML
   })
     .filter(Boolean)
     .join('\n')
@@ -173,6 +178,7 @@ function runCode(code) {
   next.title = '案例实时预览'
   next.className = 'live-preview'
   next.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-pointer-lock')
+  next.setAttribute('allow', 'pointer-lock; fullscreen')
   previewFrame.replaceWith(next)
   previewFrame = next
   previewFrame.srcdoc = buildSrcdoc(safeCode)
@@ -301,6 +307,7 @@ function buildShell(l) {
   previewFrame.title = '案例实时预览'
   previewFrame.className = 'live-preview'
   previewFrame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-pointer-lock')
+  previewFrame.setAttribute('allow', 'pointer-lock; fullscreen')
   stageHost.appendChild(previewFrame)
 
   statusEl = document.getElementById('codeStatus')

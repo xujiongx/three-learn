@@ -21,8 +21,8 @@ import * as THREE from 'three'
 import { PointerLockControls } from 'three/addons/controls/PointerLockControls.js'
 
 const scene = new THREE.Scene()
-scene.background = new THREE.Color(0x1a1520)
-scene.fog = new THREE.Fog(0x1a1520, 6, 22)
+scene.background = new THREE.Color(0x2a2433)
+scene.fog = new THREE.Fog(0x2a2433, 12, 28)
 
 // 第一人称常用较大 fov（更沉浸）
 const camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.1, 100)
@@ -31,6 +31,9 @@ camera.position.set(0, 1.6, 6) // y=1.6 约等于人眼高度（米）
 const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setSize(innerWidth, innerHeight)
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2))
+renderer.outputColorSpace = THREE.SRGBColorSpace
+renderer.toneMapping = THREE.ACESFilmicToneMapping
+renderer.toneMappingExposure = 1.15
 document.body.appendChild(renderer.domElement)
 
 const controls = new PointerLockControls(camera, document.body)
@@ -38,7 +41,9 @@ const blocker = document.getElementById('blocker')
 const caption = document.getElementById('caption')
 
 // 浏览器安全策略：必须由用户手势触发才能锁定鼠标
-blocker.addEventListener('click', () => controls.lock())
+blocker.addEventListener('click', () => {
+  controls.lock()
+})
 controls.addEventListener('lock', () => {
   blocker.style.display = 'none'
 })
@@ -46,13 +51,18 @@ controls.addEventListener('unlock', () => {
   blocker.style.display = 'flex'
 })
 
-scene.add(new THREE.HemisphereLight(0xffe6d5, 0x2a2030, 0.85))
-const lamp = new THREE.PointLight(0xfff0dd, 1.2, 18)
-lamp.position.set(0, 3.5, 0)
+// 展厅照明：环境光 + 顶灯 + 每幅画一盏射灯
+scene.add(new THREE.AmbientLight(0xfff5eb, 0.45))
+scene.add(new THREE.HemisphereLight(0xfff0e0, 0x4a3f55, 0.9))
+const lamp = new THREE.PointLight(0xfff5e8, 2.4, 22, 1.4)
+lamp.position.set(0, 3.2, 0)
 scene.add(lamp)
+const fill = new THREE.PointLight(0xdde8ff, 1.1, 16, 1.6)
+fill.position.set(0, 2.4, 4)
+scene.add(fill)
 
-const wallMat = new THREE.MeshStandardMaterial({ color: 0x2c2433, roughness: 0.9 })
-const floorMat = new THREE.MeshStandardMaterial({ color: 0x3a3028, roughness: 0.85 })
+const wallMat = new THREE.MeshStandardMaterial({ color: 0x4a4256, roughness: 0.88, metalness: 0.05 })
+const floorMat = new THREE.MeshStandardMaterial({ color: 0x5c5044, roughness: 0.8, metalness: 0.05 })
 
 const roomW = 14
 const roomD = 14
@@ -64,7 +74,7 @@ scene.add(floor)
 
 const ceiling = new THREE.Mesh(
   new THREE.PlaneGeometry(roomW, roomD),
-  new THREE.MeshStandardMaterial({ color: 0x221c28 }),
+  new THREE.MeshStandardMaterial({ color: 0x3a3344, roughness: 1 }),
 )
 ceiling.rotation.x = Math.PI / 2
 ceiling.position.y = roomH
@@ -130,7 +140,13 @@ const paintings = []
 for (const a of arts) {
   const mesh = new THREE.Mesh(
     new THREE.PlaneGeometry(2.4, 1.8),
-    new THREE.MeshStandardMaterial({ map: paintingTexture(a.title, a.color) }),
+    new THREE.MeshStandardMaterial({
+      map: paintingTexture(a.title, a.color),
+      roughness: 0.55,
+      metalness: 0.05,
+      emissive: new THREE.Color(a.color),
+      emissiveIntensity: 0.12,
+    }),
   )
   mesh.position.set(a.x, 1.8, a.z)
   mesh.rotation.y = a.ry
@@ -138,17 +154,20 @@ for (const a of arts) {
   scene.add(mesh)
   paintings.push(mesh)
 
+  // 射灯照向画作，保证画面清晰
+  const spot = new THREE.SpotLight(0xfff4e8, 3.2, 12, Math.PI / 5, 0.45, 1)
+  const ox = a.ry === Math.PI / 2 ? 1.8 : a.ry === -Math.PI / 2 ? -1.8 : 0
+  const oz = a.ry === 0 ? 1.8 : 0
+  spot.position.set(a.x + ox, 3.4, a.z + oz)
+  spot.target.position.copy(mesh.position)
+  scene.add(spot)
+  scene.add(spot.target)
+
   // 深色底框，让画作更像挂在墙上
   const frame = new THREE.Mesh(
     new THREE.PlaneGeometry(2.55, 1.95),
-    new THREE.MeshStandardMaterial({ color: 0x1a1520 }),
+    new THREE.MeshStandardMaterial({ color: 0x2a2433 }),
   )
-  frame.position.set(
-    a.x + (a.ry === Math.PI / 2 ? 0.02 : a.ry === -Math.PI / 2 ? -0.02 : 0),
-    2.0,
-    a.z + (a.ry === 0 ? 0.02 : 0),
-  )
-  // 修正：画框应在画作后方一点点
   frame.position.set(a.x, 1.8, a.z)
   if (a.ry === 0) frame.position.z += 0.02
   if (a.ry === Math.PI / 2) frame.position.x += 0.02

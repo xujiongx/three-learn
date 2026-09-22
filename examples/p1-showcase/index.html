@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>P1 · 可交互旋转展台</title>
+    <link rel="stylesheet" href="/styles/example.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <a class="back" href="/">← 返回</a>
+
+    <div class="panel">
+      <p class="panel-label">材质颜色</p>
+      <div class="swatches" id="swatches">
+        <button type="button" class="swatch is-active" data-color="#3dd6c6" aria-label="青绿"></button>
+        <button type="button" class="swatch" data-color="#6ea8ff" aria-label="雾蓝"></button>
+        <button type="button" class="swatch" data-color="#ff8f6b" aria-label="珊瑚"></button>
+      </div>
+      <label class="toggle">
+        <input type="checkbox" id="autoRotate" checked />
+        <span>自动旋转</span>
+      </label>
+    </div>
+
+    <div class="hud">
+      <h1>P1 · 可交互旋转展台</h1>
+      <p>拖拽旋转 · 滚轮缩放 · 点击色块换材质</p>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

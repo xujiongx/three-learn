@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>P4 · 产品展示页</title>
+    <link rel="stylesheet" href="/styles/example.css" />
+    <link rel="stylesheet" href="/styles/practice.css" />
+  </head>
+  <body>
+    <a class="back" href="/">← 返回</a>
+    <div class="panel wide">
+      <h2 class="panel-title">Aurora Buds</h2>
+      <p class="panel-desc" id="hotspotInfo">拖拽查看产品，点击热点了解细节</p>
+      <p class="panel-label">外壳颜色</p>
+      <div class="swatches" id="swatches">
+        <button type="button" class="swatch is-active" data-color="#3dd6c6" style="--swatch:#3dd6c6"></button>
+        <button type="button" class="swatch" data-color="#e8eefc" style="--swatch:#e8eefc"></button>
+        <button type="button" class="swatch" data-color="#1a2235" style="--swatch:#1a2235"></button>
+      </div>
+    </div>
+    <div class="hud">
+      <h1>P4 · 产品展示页</h1>
+      <p>程序化耳机 · 材质切换 · 热点标注</p>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

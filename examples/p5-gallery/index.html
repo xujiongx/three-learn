@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>P5 · 第一人称画廊</title>
+    <link rel="stylesheet" href="/styles/example.css" />
+    <link rel="stylesheet" href="/styles/practice.css" />
+  </head>
+  <body>
+    <a class="back" href="/">← 返回</a>
+    <div id="blocker" class="blocker">
+      <div class="blocker-card">
+        <h1>3D 画廊</h1>
+        <p>点击进入 · WASD 移动 · 鼠标视角</p>
+        <p class="muted">靠近画作查看说明</p>
+      </div>
+    </div>
+    <div class="caption" id="caption"></div>
+    <div class="hud">
+      <h1>P5 · 第一人称画廊</h1>
+      <p>PointerLockControls · AABB 碰撞</p>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

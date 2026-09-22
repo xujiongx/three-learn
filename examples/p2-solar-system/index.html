@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>P2 · 太阳系（简化版）</title>
+    <link rel="stylesheet" href="/styles/example.css" />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <a class="back" href="/">← 返回</a>
+
+    <div class="panel">
+      <p class="hint">点击行星查看名称</p>
+      <p class="planet-name" id="planetName">太阳系</p>
+      <label class="toggle">
+        <input type="checkbox" id="pause" />
+        <span>暂停公转</span>
+      </label>
+    </div>
+
+    <div class="hud">
+      <h1>P2 · 太阳系（简化版）</h1>
+      <p>Group 父子变换 · 公转/自转 · Raycaster 拾取</p>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

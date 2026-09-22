@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>P8 · 3D 数据可视化</title>
+    <link rel="stylesheet" href="/styles/example.css" />
+    <link rel="stylesheet" href="/styles/practice.css" />
+  </head>
+  <body>
+    <a class="back" href="/">← 返回</a>
+    <div class="panel">
+      <p class="panel-label">数据集</p>
+      <button type="button" class="btn" id="btnPop" data-set="population">城市人口</button>
+      <button type="button" class="btn ghost" id="btnScore" data-set="score">产品评分</button>
+    </div>
+    <div class="tooltip" id="tooltip"></div>
+    <div class="hud">
+      <h1>P8 · 3D 数据可视化</h1>
+      <p>数据映射高度 · 悬停 Tooltip · 切换数据集</p>
+    </div>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

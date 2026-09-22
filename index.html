@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Three.js 学习示例导航</title>
+    <link rel="stylesheet" href="/styles/home.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="hero">
+        <p class="eyebrow">Three.js Learning Lab</p>
+        <h1>Three.js 学习示例</h1>
+        <p class="lead">
+          从旋转方块到完整练手项目，按顺序跑一遍，配合
+          <code>docs/threejs-learning-guide.md</code> 一起学。
+        </p>
+      </header>
+
+      <section class="examples">
+        <a class="card" href="/examples/01-hello-cube/">
+          <span class="num">01</span>
+          <h2>Hello Cube</h2>
+          <p>Scene / Camera / Renderer，第一个旋转立方体</p>
+        </a>
+        <a class="card" href="/examples/02-lights-materials/">
+          <span class="num">02</span>
+          <h2>灯光与材质</h2>
+          <p>环境光、平行光、点光 + MeshStandardMaterial</p>
+        </a>
+        <a class="card" href="/examples/03-orbit-controls/">
+          <span class="num">03</span>
+          <h2>轨道控制器</h2>
+          <p>OrbitControls 拖拽旋转、缩放场景</p>
+        </a>
+        <a class="card" href="/examples/04-model-loader/">
+          <span class="num">04</span>
+          <h2>模型加载</h2>
+          <p>用程序化几何体模拟 GLTF 加载流程</p>
+        </a>
+        <a class="card" href="/examples/05-particles/">
+          <span class="num">05</span>
+          <h2>粒子系统</h2>
+          <p>Points + BufferGeometry 做星空粒子</p>
+        </a>
+      </section>
+
+      <header class="hero section-gap">
+        <p class="eyebrow">Practice Projects</p>
+        <h1 class="h2">练手项目 P1 – P10</h1>
+        <p class="lead">全部可运行。建议先读参考实现，再自己重写一遍。</p>
+      </header>
+
+      <section class="examples">
+        <a class="card card-practice" href="/examples/p1-showcase/">
+          <span class="num">P1</span>
+          <h2>可交互旋转展台</h2>
+          <p>展台 + 阴影 + OrbitControls + 换色 UI</p>
+        </a>
+        <a class="card card-practice" href="/examples/p2-solar-system/">
+          <span class="num">P2</span>
+          <h2>太阳系（简化版）</h2>
+          <p>Group 公转自转 + Raycaster 点击行星</p>
+        </a>
+        <a class="card card-practice" href="/examples/p3-dice/">
+          <span class="num">P3</span>
+          <h2>3D 骰子</h2>
+          <p>旋转缓动 · 朝上点数映射</p>
+        </a>
+        <a class="card card-practice" href="/examples/p4-product/">
+          <span class="num">P4</span>
+          <h2>产品展示页</h2>
+          <p>程序化耳机 · 换色 · 热点标注</p>
+        </a>
+        <a class="card card-practice" href="/examples/p5-gallery/">
+          <span class="num">P5</span>
+          <h2>第一人称画廊</h2>
+          <p>PointerLock · WASD · 碰撞</p>
+        </a>
+        <a class="card card-practice" href="/examples/p6-audio-particles/">
+          <span class="num">P6</span>
+          <h2>音频粒子可视化</h2>
+          <p>Analyser · 频谱驱动粒子</p>
+        </a>
+        <a class="card card-practice" href="/examples/p7-runner/">
+          <span class="num">P7</span>
+          <h2>跑酷小游戏</h2>
+          <p>三车道 · 障碍金币 · 状态机</p>
+        </a>
+        <a class="card card-practice" href="/examples/p8-dataviz/">
+          <span class="num">P8</span>
+          <h2>3D 数据可视化</h2>
+          <p>柱状图 · Tooltip · 切换数据</p>
+        </a>
+        <a class="card card-practice" href="/examples/p9-water-shader/">
+          <span class="num">P9</span>
+          <h2>Shader 水面</h2>
+          <p>顶点波浪 · 菲涅尔高光</p>
+        </a>
+        <a class="card card-practice" href="/examples/p10-portfolio-room/">
+          <span class="num">P10</span>
+          <h2>3D 作品集房间</h2>
+          <p>可点击书桌 / 书架 / 画框</p>
+        </a>
+      </section>
+
+      <footer class="footer">
+        <p>启动：<code>npm install && npm run dev</code></p>
+      </footer>
+    </main>
+  </body>
+</html>

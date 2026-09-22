@@ -349,6 +349,23 @@ function buildShell(l) {
         t.setAttribute('aria-selected', on ? 'true' : 'false')
       })
       panels.forEach((p) => p.classList.toggle('is-active', p.dataset.panel === name))
+
+      const active = root.querySelector(`.ws-panel[data-panel='${name}']`)
+      if (
+        active &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ) {
+        import('gsap')
+          .then(({ default: gsap }) => {
+            gsap.fromTo(
+              active,
+              { autoAlpha: 0.35, y: 8 },
+              { autoAlpha: 1, y: 0, duration: 0.28, ease: 'power2.out', clearProps: 'transform' },
+            )
+          })
+          .catch(() => {})
+      }
+
       if (name === 'code') {
         ensureEditor().then(() => {
           requestAnimationFrame(() => codeEditor?.view.requestMeasure())

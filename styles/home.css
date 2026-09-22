@@ -111,6 +111,19 @@ a {
   border-bottom: 1px solid rgba(18, 20, 26, 0.06);
   backdrop-filter: blur(14px) saturate(1.1);
   -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  transition:
+    padding 0.28s ease,
+    background 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.28s ease;
+}
+
+.topbar.is-scrolled {
+  padding-top: 0.55rem;
+  padding-bottom: 0.55rem;
+  background: rgba(230, 231, 235, 0.97);
+  border-bottom-color: rgba(18, 20, 26, 0.1);
+  box-shadow: 0 10px 28px rgba(18, 20, 26, 0.07);
 }
 
 .brand {
@@ -147,6 +160,15 @@ a {
 
 .nav a:hover {
   color: var(--ink);
+}
+
+.nav a.is-active {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.nav a.is-active::after {
+  transform: scaleX(1);
 }
 
 .nav a::after {
@@ -484,9 +506,12 @@ a {
 }
 
 .path-step:hover {
-  transform: translateX(6px);
   border-color: rgba(224, 78, 0, 0.35);
   background: rgba(255, 255, 255, 0.78);
+}
+
+.path-step.has-magnetic:hover {
+  transform: none;
 }
 
 .path-num {
@@ -711,8 +736,11 @@ a {
 }
 
 .bento-item:hover {
-  transform: translateY(-4px);
   box-shadow: 0 20px 40px rgba(18, 20, 26, 0.22);
+}
+
+.bento-item.has-magnetic:hover {
+  transform: none;
 }
 
 .bento-item.is-hidden {
@@ -811,27 +839,74 @@ a {
   opacity: 0.8;
 }
 
-/* Reveal on scroll */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+/* Reveal / 入场由 GSAP 接管 */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: calc(var(--z-top, 40) + 2);
+  height: 3px;
+  pointer-events: none;
+  background: transparent;
 }
 
-[data-reveal].is-in {
-  opacity: 1;
-  transform: none;
+.scroll-progress-bar {
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--accent), #ff8f6b);
+}
+
+.has-magnetic {
+  will-change: transform;
+}
+
+/* GSAP 接管舞台循环时关掉 CSS 动画，避免打架 */
+html.gsap-stage .orb-a,
+html.gsap-stage .orb-b,
+html.gsap-stage .wire-cube {
+  animation: none;
+}
+
+/* 首次入场前预藏 Hero/顶栏，避免闪烁 */
+html.motion-pending .topbar,
+html.motion-pending .hero-kicker,
+html.motion-pending .brand-line,
+html.motion-pending .hero-sub,
+html.motion-pending .hero-lead,
+html.motion-pending .hero-actions,
+html.motion-pending .hero-meta,
+html.motion-pending .hero-stage {
+  visibility: hidden;
 }
 
 [data-filterable].is-hidden {
-  display: none;
+  display: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html.motion-pending .topbar,
+  html.motion-pending .hero-kicker,
+  html.motion-pending .brand-line,
+  html.motion-pending .hero-sub,
+  html.motion-pending .hero-lead,
+  html.motion-pending .hero-actions,
+  html.motion-pending .hero-meta,
+  html.motion-pending .hero-stage {
+    visibility: visible;
+  }
+
   [data-reveal] {
-    opacity: 1;
-    transform: none;
-    transition: none;
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+
+  .scroll-progress {
+    display: none;
   }
 }
 

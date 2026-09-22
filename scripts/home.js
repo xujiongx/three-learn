@@ -1,10 +1,11 @@
 /**
  * 三维课首页交互
  * - 离开前保存滚动位置，返回时恢复
- * - 课程筛选 / 滚动渐入 / 续学
+ * - 课程筛选 / GSAP 入场与滚动渐入 / 续学
  */
 
 import { LESSONS } from './lessons-data.js'
+import { animateFilter, initHomeMotion, setupSmoothAnchors } from './motion-home.js'
 
 const STORAGE_KEY = 'three-course-last'
 const VISITED_KEY = 'three-course-visited'
@@ -34,6 +35,10 @@ function saveScroll() {
   sessionStorage.setItem(SCROLL_KEY + ':pending', '1')
 }
 
+function isRestoringScroll() {
+  return Boolean(sessionStorage.getItem(SCROLL_KEY + ':pending'))
+}
+
 function restoreScroll() {
   const pending = sessionStorage.getItem(SCROLL_KEY + ':pending')
   const raw = sessionStorage.getItem(SCROLL_KEY)
@@ -42,7 +47,6 @@ function restoreScroll() {
   const top = Number(raw)
   if (!Number.isFinite(top)) return
 
-  // 恢复前先显示所有 reveal，避免滚到半空仍透明
   document.querySelectorAll('[data-reveal]').forEach((n) => n.classList.add('is-in'))
 
   const jump = () => window.scrollTo(0, top)
@@ -94,51 +98,19 @@ function setupFilters() {
         c.setAttribute('aria-selected', on ? 'true' : 'false')
       })
 
-      lessons.forEach((el) => {
+      animateFilter(lessons, (el) => {
         const tags = (el.dataset.tags || '').split(/\s+/)
-        const show = filter === 'all' || tags.includes(filter)
-        el.classList.toggle('is-hidden', !show)
+        return filter === 'all' || tags.includes(filter)
       })
 
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const scrollOpt = reduce ? undefined : { behavior: 'smooth', block: 'start' }
       if (filter === 'practice' || filter === 'challenge') {
-        document.getElementById('studio')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        document.getElementById('studio')?.scrollIntoView(scrollOpt)
       } else if (filter === 'basics') {
-        document.getElementById('fundamentals')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        document.getElementById('fundamentals')?.scrollIntoView(scrollOpt)
       }
     })
-  })
-}
-
-function setupReveal() {
-  const nodes = document.querySelectorAll('[data-reveal]')
-  if (!nodes.length) return
-
-  // 若正在恢复滚动，setupReveal 外已全部 is-in，这里跳过观察即可
-  if (sessionStorage.getItem(SCROLL_KEY + ':pending')) {
-    nodes.forEach((n) => n.classList.add('is-in'))
-    return
-  }
-
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    nodes.forEach((n) => n.classList.add('is-in'))
-    return
-  }
-
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-in')
-          io.unobserve(entry.target)
-        }
-      })
-    },
-    { threshold: 0.1, rootMargin: '0px 0px -6% 0px' },
-  )
-
-  nodes.forEach((n, i) => {
-    n.style.transitionDelay = `${Math.min(i % 5, 4) * 40}ms`
-    io.observe(n)
   })
 }
 
@@ -153,9 +125,7 @@ function setupTrackClicks() {
   })
 }
 
-// 页面显示时恢复（含浏览器后退）
 window.addEventListener('pageshow', (event) => {
-  // bfcache 回来时浏览器通常已恢复滚动；若我们有 pending 仍对齐一次
   if (event.persisted || sessionStorage.getItem(SCROLL_KEY + ':pending')) {
     restoreScroll()
   }
@@ -165,10 +135,10 @@ applyVisitedState()
 setupResumeHint()
 setupFilters()
 setupTrackClicks()
-setupReveal()
+setupSmoothAnchors()
+initHomeMotion({ restoringScroll: isRestoringScroll() })
 restoreScroll()
 
-// 滚动中节流保存，防止未点链接就刷新丢失（可选增强）
 let scrollTimer = 0
 window.addEventListener(
   'scroll',

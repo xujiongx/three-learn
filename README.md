@@ -30,6 +30,8 @@ UI 按 [taste-skill](https://github.com/Leonxlnx/taste-skill) 做了教学站向
 - 课程列表 + 练手 bento，替代等宽三列卡片
 - Outfit / Source Sans 3 / IBM Plex Mono 字体组合
 
+本仓库已接入官方 [GSAP AI Skills](https://github.com/greensock/gsap-skills)（位于 `.cursor/skills/`）。首页 / 指南 / 课时壳使用 GSAP（timeline、ScrollTrigger、ScrollTo）做入场与滚动交互，并尊重 `prefers-reduced-motion`。
+
 ## 文档
 
 完整学习指南（网页版）：[guide/](./guide/)  

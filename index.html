@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/styles/home.css" />
     <script>
       // 尽早恢复滚动，减少「先闪到顶部再跳回」
+      // 以及：仅首次访问预藏 Hero，避免 GSAP 入场前的闪烁
       (function () {
         try {
           if ('scrollRestoration' in history) history.scrollRestoration = 'manual'
@@ -28,6 +29,11 @@
               window.scrollTo(0, top)
               document.documentElement.style.scrollBehavior = 'auto'
             }
+          } else if (
+            !sessionStorage.getItem('three-course-home-intro') &&
+            !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          ) {
+            document.documentElement.classList.add('motion-pending')
           }
         } catch (e) {}
       })()
@@ -35,6 +41,7 @@
   </head>
   <body>
     <a class="skip" href="#learn">跳到正文</a>
+    <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-bar"></div></div>
     <div class="grain" aria-hidden="true"></div>
 
     <header class="topbar">
